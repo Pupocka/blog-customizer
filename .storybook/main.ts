@@ -2,14 +2,15 @@ import type { StorybookConfig } from '@storybook/react-webpack5';
 const path = require('path');
 
 const config: StorybookConfig = {
-	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-	addons: [
-		'@storybook/addon-links',
-		'@storybook/addon-essentials',
-		'@storybook/addon-onboarding',
-		'@storybook/addon-interactions',
-		'@storybook/addon-styling-webpack',
-		{
+    stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+
+    addons: [
+        '@storybook/addon-links',
+        '@storybook/addon-essentials',
+        '@storybook/addon-onboarding',
+        '@storybook/addon-interactions',
+        '@storybook/addon-styling-webpack',
+        {
 			name: '@storybook/addon-styling-webpack',
 
 			options: {
@@ -60,8 +61,11 @@ const config: StorybookConfig = {
 				],
 			},
 		},
-	],
-	webpackFinal: async (config) => {
+        '@storybook/addon-webpack5-compiler-swc',
+        '@chromatic-com/storybook'
+    ],
+
+    webpackFinal: async (config) => {
 		if (config?.resolve?.alias) {
 			config.resolve.alias = {
 				fonts: path.resolve(__dirname, '..', './src/fonts'),
@@ -72,15 +76,15 @@ const config: StorybookConfig = {
 
 		return config;
 	},
-	framework: {
+
+    framework: {
 		name: '@storybook/react-webpack5',
 		options: {
-			builder: {
-				useSWC: true,
-			},
+			builder: {},
 		},
 	},
-	swc: () => ({
+
+    swc: () => ({
 		jsc: {
 			transform: {
 				react: {
@@ -89,8 +93,11 @@ const config: StorybookConfig = {
 			},
 		},
 	}),
-	docs: {
-		autodocs: 'tag',
-	},
+
+    docs: {},
+
+    typescript: {
+        reactDocgen: 'react-docgen-typescript'
+    }
 };
 export default config;
